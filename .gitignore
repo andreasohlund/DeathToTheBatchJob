@@ -1,6 +1,27 @@
-# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-bin
+build
+binaries
 obj
-
-# mstest test results
-TestResults
+bin
+.nu
+_ReSharper.*
+_UpgradeReport.*
+*.csproj.user
+*.resharper.user
+*.resharper
+*.suo
+*.cache
+*~
+*.swp
+*.user
+TestResult.xml
+results
+nuget
+CommonAssemblyInfo.cs
+lib/sqlite/System.Data.SQLite.dll
+*.orig
+Samples/DataBus/storage
+packages
+PrecompiledWeb
+core-only
+Release
+Artifacts
