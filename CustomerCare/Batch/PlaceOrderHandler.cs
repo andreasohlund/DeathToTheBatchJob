@@ -1,5 +1,6 @@
 ﻿namespace CustomerCare.Batch
 {
+    using System;
     using Sales.Contracts;
     using NServiceBus;
     using Raven.Client;
@@ -31,7 +32,7 @@
                 session.Store(customer);
                 session.SaveChanges();
             }
-
+            
             Bus.Publish<OrderAccepted>(m =>
                                            {
                                                m.CustomerId = message.CustomerId;
@@ -39,6 +40,7 @@
                                                m.OrderValue = orderValue;
                                                m.OrderDate = message.OrderDate;
                                            });
+            Console.WriteLine("Order accepted for " + message.CustomerId + ", Ordervalue: "+message.OrderValue);
         }
     }
 }

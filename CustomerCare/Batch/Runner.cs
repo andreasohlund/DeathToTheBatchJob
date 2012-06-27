@@ -16,9 +16,31 @@ namespace CustomerCare.Batch
 
         public void Run()
         {
-            GenerateTestCustomers();
-            Batch.Run();
-            ListCustomerStatus();
+            string cmd;
+            Console.WriteLine("Hit to S simulate orders");
+            Console.WriteLine("Hit to B to run the batch");
+            Console.WriteLine("Hit to O to create one order");
+
+            while ((cmd = Console.ReadKey().Key.ToString().ToLower()) != "q")
+            {
+                switch(cmd.ToLower())
+                {
+                    case "s":
+                        GenerateTestCustomers();
+                        break;
+
+                    case "b":
+                        Batch.Run();
+                        ListCustomerStatus();
+                        break;
+
+
+                    case "o":
+                        GenerateTestCustomers(1);
+                        break;
+                }
+            }
+            
 
         }
 
@@ -46,11 +68,13 @@ namespace CustomerCare.Batch
 
         public IBus Bus { get; set; }
         public IDocumentStore Store { get; set; }
-        public void GenerateTestCustomers()
+        public void GenerateTestCustomers(int numberOfCustomers = 0)
         {
             var random = new Random();
+            if (numberOfCustomers == 0)
+                numberOfCustomers = random.Next(25, 50);
 
-            for (int i = 0; i < random.Next(25, 50); i++)
+            for (int i = 0; i < numberOfCustomers; i++)
             {
                 var customerId = Guid.NewGuid();
 
