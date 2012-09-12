@@ -85,7 +85,7 @@ namespace CustomerCare.Batch
                                      OrderId = Guid.NewGuid(),
                                      CustomerId = customerId,
                                      OrderValue = random.Next(100, 5000),
-                                     OrderDate = DateTime.UtcNow.AddDays(-random.Next(0, 600))
+                                     OrderDate = DateTime.UtcNow
                                      
                                  });
 

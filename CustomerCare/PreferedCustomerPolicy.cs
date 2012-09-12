@@ -1,8 +1,8 @@
 namespace CustomerCare
 {
     using System;
-    using Sales.Contracts;
     using Contracts;
+    using Sales.Contracts;
     using NServiceBus.Saga;
 
     public class PreferedCustomerPolicy : Saga<PreferedCustomerPolicyData>,
@@ -15,7 +15,7 @@ namespace CustomerCare
 
             AdjustRunningTotal(message.OrderValue);
 
-            RequestUtcTimeout(message.OrderDate.AddDays(365), message);
+            RequestUtcTimeout(message.OrderDate.AddSeconds(20), message);
         }
 
         void AdjustRunningTotal(double orderValue)
@@ -41,8 +41,12 @@ namespace CustomerCare
         {
             AdjustRunningTotal(-state.OrderValue);
         }
-    }
 
+        public override void ConfigureHowToFindSaga()
+        {
+            ConfigureMapping<OrderAccepted>(s => s.CustomerId, m => m.CustomerId);
+        }
+    }
 
     public class PreferedCustomerPolicyData : IContainSagaData
     {

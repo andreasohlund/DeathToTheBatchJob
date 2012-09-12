@@ -1,9 +1,8 @@
 ﻿namespace CustomerCare.Tests
 {
-    using CustomerCare.Contracts;
+    using Contracts;
     using NServiceBus.Testing;
     using NUnit.Framework;
-    using Sales;
 
     [TestFixture]
     public class When_reaching_the_threshold_within_a_year : PreferedCustomerPolicySpecification
