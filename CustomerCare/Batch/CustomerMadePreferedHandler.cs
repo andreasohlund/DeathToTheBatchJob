@@ -8,7 +8,7 @@
     {
         public void Handle(CustomerMadePrefered message)
         {
-            Console.Out.WriteLine("Customer {0} was made prefered",message.CustomerId);
+            Console.Out.WriteLine("Customer {0} was made prefered", message.CustomerId);
         }
     }
 }

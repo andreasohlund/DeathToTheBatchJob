@@ -1,13 +1,16 @@
-﻿namespace Sales
+﻿namespace CustomerCare
 {
     using NServiceBus;
+    using NServiceBus.Persistence;
 
-    public class EndpointConfig:IConfigureThisEndpoint,AsA_Publisher,IWantCustomInitialization
+    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
     {
-        public void Init()
+        public void Customize(BusConfiguration configuration)
         {
-            Configure.With()
+            configuration.Conventions()
                 .DefiningMessagesAs(t => t.Namespace != null && t.Namespace.EndsWith(".Contracts"));
+
+            configuration.UsePersistence<RavenDBPersistence>();
         }
     }
 }

@@ -1,48 +1,18 @@
+using Raven.Client.Extensions;
+
 namespace CustomerCare.Batch
 {
     using System;
     using System.Linq;
-    using Sales.Contracts;
     using NServiceBus;
-    using NServiceBus.Config;
     using Raven.Client;
     using Raven.Client.Document;
     using Raven.Client.Linq;
+    using Sales.Contracts;
 
-    public class Runner : IWantToRunAtStartup
+    public class Runner : IWantToRunWhenBusStartsAndStops
     {
         public UpdateCustomerStatusBatch Batch { get; set; }
-
-
-        public void Run()
-        {
-            string cmd;
-            Console.WriteLine("Hit to S simulate orders");
-            Console.WriteLine("Hit to B to run the batch");
-            Console.WriteLine("Hit to O to create one order");
-
-            while ((cmd = Console.ReadKey().Key.ToString().ToLower()) != "q")
-            {
-                switch(cmd.ToLower())
-                {
-                    case "s":
-                        GenerateTestCustomers();
-                        break;
-
-                    case "b":
-                        Batch.Run();
-                        ListCustomerStatus();
-                        break;
-
-
-                    case "o":
-                        GenerateTestCustomers(1);
-                        break;
-                }
-            }
-            
-
-        }
 
         void ListCustomerStatus()
         {
@@ -60,6 +30,34 @@ namespace CustomerCare.Batch
                 }
             }
 
+        }
+
+        public void Start()
+        {
+            string cmd;
+            Console.WriteLine("Hit to S simulate orders");
+            Console.WriteLine("Hit to B to run the batch");
+            Console.WriteLine("Hit to O to create one order");
+
+            while ((cmd = Console.ReadKey().Key.ToString().ToLower()) != "q")
+            {
+                switch(cmd.ToLower())
+                {
+                    case "s":
+                        this.GenerateTestCustomers();
+                        break;
+
+                    case "b":
+                        this.Batch.Run();
+                        this.ListCustomerStatus();
+                        break;
+
+
+                    case "o":
+                        this.GenerateTestCustomers(1);
+                        break;
+                }
+            }
         }
 
         public void Stop()
@@ -93,22 +91,18 @@ namespace CustomerCare.Batch
             }
 
         }
-
-
     }
 
     public class ConfigureDeps : INeedInitialization
     {
-        public void Init()
+        public void Customize(BusConfiguration configuration)
         {
-            var store = new DocumentStore { Url = "http://localhost:8080" };
-
+            var store = new DocumentStore { Url = "http://localhost:8080", DefaultDatabase = "Customers" };
             store.Initialize();
+            store.DatabaseCommands.EnsureDatabaseExists("Customers");
 
-            Configure.Instance.Configurer.RegisterSingleton<IDocumentStore>(store);
-            Configure.Instance.Configurer
-                .ConfigureComponent<UpdateCustomerStatusBatch>(DependencyLifecycle.InstancePerCall);
+            configuration.RegisterComponents(c => c.RegisterSingleton<IDocumentStore>(store));
+            configuration.RegisterComponents(c => c.ConfigureComponent<UpdateCustomerStatusBatch>(DependencyLifecycle.InstancePerCall));
         }
-
     }
 }
