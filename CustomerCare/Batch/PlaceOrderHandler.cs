@@ -40,6 +40,13 @@
                                                m.OrderValue = orderValue;
                                                m.OrderDate = message.OrderDate;
                                            });
+            Bus.SendLocal<OrderAccepted>(m =>
+                                    {
+                                        m.CustomerId = message.CustomerId;
+                                        m.OrderId = message.OrderId;
+                                        m.OrderValue = orderValue;
+                                        m.OrderDate = message.OrderDate;
+                                    });
             Console.WriteLine("Order accepted for " + message.CustomerId + ", Ordervalue: "+message.OrderValue);
         }
     }

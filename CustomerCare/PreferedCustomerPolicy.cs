@@ -2,8 +2,8 @@ namespace CustomerCare
 {
     using System;
     using Contracts;
-    using Sales.Contracts;
     using NServiceBus.Saga;
+    using Sales.Contracts;
 
     public class PreferedCustomerPolicy : Saga<PreferedCustomerPolicyData>,
         IAmStartedByMessages<OrderAccepted>,
@@ -15,7 +15,7 @@ namespace CustomerCare
 
             AdjustRunningTotal(message.OrderValue);
 
-            RequestUtcTimeout(message.OrderDate.AddSeconds(20), message);
+            RequestTimeout(message.OrderDate.AddSeconds(20), message);
         }
 
         void AdjustRunningTotal(double orderValue)
@@ -24,14 +24,20 @@ namespace CustomerCare
             if (Data.YearlyRunningTotal > 5000)
             {
                 if (!Data.IsPrefered)
+                {
                     Bus.Publish<CustomerMadePrefered>(m => m.CustomerId = Data.CustomerId);
+                    Bus.SendLocal<CustomerMadePrefered>(m => m.CustomerId = Data.CustomerId);
+                }
 
                 Data.IsPrefered = true;
             }
             else
             {
                 if (Data.IsPrefered)
+                {
                     Bus.Publish<CustomerDegradedToRegularStatus>(m => m.CustomerId = Data.CustomerId);
+                    Bus.SendLocal<CustomerDegradedToRegularStatus>(m => m.CustomerId = Data.CustomerId);
+                }
 
                 Data.IsPrefered = false;
             }
@@ -42,9 +48,9 @@ namespace CustomerCare
             AdjustRunningTotal(-state.OrderValue);
         }
 
-        public override void ConfigureHowToFindSaga()
+        protected override void ConfigureHowToFindSaga(SagaPropertyMapper<PreferedCustomerPolicyData> mapper)
         {
-            ConfigureMapping<OrderAccepted>(s => s.CustomerId, m => m.CustomerId);
+            mapper.ConfigureMapping<OrderAccepted>(m => m.CustomerId).ToSaga(s => s.CustomerId);
         }
     }
 
@@ -54,6 +60,7 @@ namespace CustomerCare
         public string Originator { get; set; }
         public string OriginalMessageId { get; set; }
 
+        [Unique]
         public Guid CustomerId { get; set; }
 
         public double YearlyRunningTotal { get; set; }
