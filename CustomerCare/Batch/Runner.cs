@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Raven.Client.Extensions;
 
 namespace CustomerCare.Batch
@@ -74,22 +75,20 @@ namespace CustomerCare.Batch
 
             for (int i = 0; i < numberOfCustomers; i++)
             {
-                var customerId = Guid.NewGuid();
+                var customerId = string.Format("John Doe {0}", random.Next(1, 5000));
 
                 for (int j = 0; j < random.Next(1, 10); j++)
                 {
                     Bus.SendLocal(new PlaceOrder
-                                 {
-                                     OrderId = Guid.NewGuid(),
-                                     CustomerId = customerId,
-                                     OrderValue = random.Next(100, 5000),
-                                     OrderDate = DateTime.UtcNow
-                                     
-                                 });
+                    {
+                        OrderId = Guid.NewGuid(),
+                        CustomerId = customerId,
+                        OrderValue = random.Next(100, 5000),
+                        OrderDate = DateTime.UtcNow
 
+                    });
                 }
             }
-
         }
     }
 

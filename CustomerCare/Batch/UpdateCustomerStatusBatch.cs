@@ -20,7 +20,7 @@
                 UpdateStatusFor(customer.Id);
         }
 
-        void UpdateStatusFor(Guid customerId)
+        void UpdateStatusFor(string customerId)
         {
             using (var session = Store.OpenSession())
             {

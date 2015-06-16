@@ -6,7 +6,7 @@ namespace CustomerCare.Tests
 
     public class PreferedCustomerPolicySpecification
     {
-        protected Guid customerId = Guid.NewGuid();
+        protected string customerId = Guid.NewGuid().ToString();
 
         [TestFixtureSetUp]
         public void Setup()

@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -67,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Batch\ColoredConsole.cs" />
     <Compile Include="Batch\Customer.cs" />
     <Compile Include="Batch\CustomerDegradedToRegularStatusHandler.cs" />
     <Compile Include="Batch\CustomerMadePreferedHandler.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Batch\PlaceOrderHandler.cs" />
     <Compile Include="PreferedCustomerPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvideConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

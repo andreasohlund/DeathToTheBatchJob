@@ -5,13 +5,13 @@ namespace CustomerCare.Tests
 
     public class Order
     {
-        readonly Guid customerId;
-        public Order(Guid customerId)
+        readonly string customerId;
+        public Order(string customerId)
         {
             this.customerId = customerId;
         }
 
-        public static Order For(Guid customerid)
+        public static Order For(string customerid)
         {
             return new Order(customerid);
         }

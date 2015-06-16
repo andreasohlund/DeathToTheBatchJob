@@ -61,7 +61,7 @@ namespace CustomerCare
         public string OriginalMessageId { get; set; }
 
         [Unique]
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public double YearlyRunningTotal { get; set; }
 

@@ -4,6 +4,6 @@ namespace CustomerCare.Contracts
 
     public class CustomerMadePrefered
     {
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
     }
 }
