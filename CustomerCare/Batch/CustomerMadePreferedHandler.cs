@@ -8,7 +8,10 @@
     {
         public void Handle(CustomerMadePrefered message)
         {
-            Console.Out.WriteLine("Customer {0} was made prefered", message.CustomerId);
+            using (new ColoredConsole(ConsoleColor.Green))
+            {
+                Console.Out.WriteLine("Customer {0} was made prefered", message.CustomerId);
+            }
         }
     }
 }

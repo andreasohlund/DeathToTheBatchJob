@@ -5,7 +5,7 @@ namespace CustomerCare.Batch
 
     public class Customer
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public List<Order> Orders
         {

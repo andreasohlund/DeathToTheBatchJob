@@ -6,8 +6,7 @@ namespace Sales.Contracts
     {
         public Guid OrderId { get; set; }
 
-
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public double OrderValue { get; set; }
 
@@ -18,7 +17,7 @@ namespace Sales.Contracts
     {
         public Guid OrderId { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public string CustomerId { get; set; }
 
         public double OrderValue { get; set; }
 
