@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Batch\ColoredConsole.cs" />
+    <Compile Include="Batch\ConfigureDeps.cs" />
     <Compile Include="Batch\Customer.cs" />
     <Compile Include="Batch\CustomerDegradedToRegularStatusHandler.cs" />
     <Compile Include="Batch\CustomerMadePreferedHandler.cs" />
